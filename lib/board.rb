@@ -15,73 +15,57 @@ class Board
     (0...@board.length).each do |i|
       if @board[i][pos].nil?
         @board[i][pos] = color
-        ret = [i, pos]
+        @last_move = ret = [i, pos]
         break
       end
-    end if pos.between?(0, 7)
+    end if pos.between?(0, 6)
 
     ret
   end
 
   def match?
-    col_match? || row_match? || diagonal_match?
+    col_match? || row_match? || diag_match?
   end
 
   private
 
-  def row_match?(board=@board)
+  def row_match?
+    row_i = @last_move[0]
+    col_i = @last_move[1] - 3
     count = 0
-    last_cell = nil
 
-    board.each do |row|
-      row.each do |cell|
-        count = (last_cell == cell && !cell.nil?) ? count + 1 : 1
-        break if count == 4
-        last_cell = cell
-      end
-
-      break if count == 4
-      count = 0
+    7.times do 
+      count += 1 if @board[row_i][col_i]
+      col_i += 1
     end
 
     count == 4
   end
 
   def col_match?
-    columns = (1..7).map { |col| extract_col(col) }
-    row_match?(columns)
-  end
+    row_i = @last_move[0] - 3
+    col_i = @last_move[1]
+    count = 0
 
-  def diagonal_match?
-    bottom_cells = @board[0]
-    left_cells = extract_col(0)
-    
-    bottom_diagonals = bottom_cells.each_index.map do |col|
-      extract_diagonal(0, col)
+    7.times do 
+      count += 1 if !@board[row_i].nil? && @board[row_i][col_i]
+      row_i += 1
     end
 
-    left_diagonals = left_cells.each_index.map do |row|
-      extract_diagonal(row, 0)
-    end
-
-    diagonals = bottom_diagonals + left_diagonals
-
-    row_match?(diagonals)
+    count == 4
   end
 
-  def extract_col(col)
-    @board.map { |row| row[col] }
-  end
+  def diag_match?
+    row_i = @last_move[0] - 3
+    col_i = @last_move[1] - 3
+    count = 0
 
-  def extract_diagonal(row, col)
-    diagonal = []
-
-    until @board[row].nil?
-      diagonal << board[row][col]
-      row += 1
-      col += 1
+    7.times do 
+      count += 1 if !@board[row_i].nil? && @board[row_i][col_i]
+      row_i += 1
+      col_i += 1
     end
 
-    diagonal
+    count == 4
   end
 end

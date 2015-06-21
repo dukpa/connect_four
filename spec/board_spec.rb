@@ -25,7 +25,7 @@ describe "Board" do
   context "while receiving a move" do
     before do
       7.times { board.move('W', 3) }
-      board.move('W', 8)
+      board.move('W', 7)
     end
     
     it "places token at the bottom if empty" do
@@ -54,7 +54,19 @@ describe "Board" do
       board.move('W', 4)
     end
 
-    it { is_expected.to be_match }
+    it { is_expected.to be_row_match }
+  end
+
+  context "while a column matches" do
+    subject { board }
+    before do
+      board.move('W', 1)
+      board.move('W', 1)
+      board.move('W', 1)
+      board.move('W', 1)
+    end
+
+    it { is_expected.to be_col_match }
   end
 
   context "while a diagonal matches" do
@@ -75,6 +87,6 @@ describe "Board" do
       board.move('W', 4)
     end
 
-    it { is_expected.to be_match }
+    it { is_expected.to be_diag_match }
   end
 end
