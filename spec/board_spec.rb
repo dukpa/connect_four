@@ -46,7 +46,9 @@ describe "Board" do
   end
 
   context "while a row matches" do
+    let(:board) { Board.new }
     subject { board }
+
     before do
       board.move('W', 1)
       board.move('W', 2)
@@ -54,11 +56,13 @@ describe "Board" do
       board.move('W', 4)
     end
 
-    it { is_expected.to be_row_match }
+    it { is_expected.to be_match }
   end
 
   context "while a column matches" do
+    let(:board) { Board.new }
     subject { board }
+
     before do
       board.move('W', 1)
       board.move('W', 1)
@@ -66,11 +70,13 @@ describe "Board" do
       board.move('W', 1)
     end
 
-    it { is_expected.to be_col_match }
+    it { is_expected.to be_match }
   end
 
   context "while a diagonal matches" do
+    let(:board) { Board.new }
     subject { board }
+    
     before do
       board.move('W', 1)
 
@@ -87,6 +93,6 @@ describe "Board" do
       board.move('W', 4)
     end
 
-    it { is_expected.to be_diag_match }
+    it { is_expected.to be_match }
   end
 end
