@@ -40,7 +40,7 @@ describe "Board" do
       expect(board.board[6]).to be_nil
     end
 
-    it "does not place tokens on col 8" do
+    it "does not place tokens on col 7" do
       expect(board.board[0][8]).to be_nil
     end
   end
@@ -76,7 +76,7 @@ describe "Board" do
   context "while a diagonal matches" do
     let(:board) { Board.new }
     subject { board }
-    
+
     before do
       board.move('W', 1)
 
