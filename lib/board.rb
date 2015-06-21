@@ -27,6 +27,8 @@ class Board
     match_in?(:row) || match_in?(:col) || match_in?(:diag)
   end
 
+  private
+  
   def match_in?(direction)
     row_i = @last_move[0] - ((direction == :row) ? 0 : 3)
     col_i = @last_move[1] - ((direction == :col) ? 0 : 3)
