@@ -27,19 +27,37 @@ class Board
     match_in?(:row) || match_in?(:col) || match_in?(:diag)
   end
 
+  def full?
+    @board.all? { |row| row.none? { |cell| cell.nil? } }
+  end
+
   private
   
   def match_in?(direction)
     row_i = @last_move[0] - ((direction == :row) ? 0 : 3)
     col_i = @last_move[1] - ((direction == :col) ? 0 : 3)
     count = 0
+    last_cell = nil
 
-    7.times do 
-      count += 1 if !@board[row_i].nil? && @board[row_i][col_i]
+    7.times do
+      current_cell = get_value_at(row_i, col_i)
+      
+      if current_cell == last_cell && !current_cell.nil?
+        count += 1
+        break if count == 3
+      else
+        count = 0
+      end
+
+      last_cell = current_cell
       row_i += ((direction == :row) ? 0 : 1)
       col_i += ((direction == :col) ? 0 : 1)
     end
 
-    count == 4
+    count == 3
+  end
+
+  def get_value_at(row_i, col_i)
+    @board[row_i][col_i] unless @board[row_i].nil?
   end
 end

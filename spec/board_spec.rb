@@ -59,6 +59,20 @@ describe "Board" do
     it { is_expected.to be_match }
   end
 
+  context "while a row does not match" do
+    let(:board) { Board.new }
+    subject { board }
+
+    before do
+      board.move('W', 1)
+      board.move('B', 2)
+      board.move('W', 3)
+      board.move('B', 4)
+    end
+
+    it { is_expected.to_not be_match }
+  end
+
   context "while a column matches" do
     let(:board) { Board.new }
     subject { board }
@@ -94,5 +108,11 @@ describe "Board" do
     end
 
     it { is_expected.to be_match }
+  end
+
+  context "while board is full" do
+    subject { board }
+    before { 7.times { |i| 6.times { board.move('W', i) } } }
+    it { is_expected.to be_full }
   end
 end
